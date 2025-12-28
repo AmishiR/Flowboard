@@ -67,8 +67,10 @@ DATABASES = {
 
 # --- CORS SETTINGS ---
 # This allows your React frontend to talk to this Django API
-CORS_ALLOW_ALL_ORIGINS = True # Set to False and use CORS_ALLOWED_ORIGINS for higher security
-
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "https://flowboard-frontend.onrender.com", # <— Add your Live React URL here!
+]
 # --- STATIC FILES ---
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles" 
