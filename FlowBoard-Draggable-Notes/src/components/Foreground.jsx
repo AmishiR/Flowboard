@@ -3,21 +3,27 @@ import Card from './Card'
 
 function Foreground() {
   const [notes, setNotes] = useState([]);
-
-  const API_BASE_URL = 'https://flowboard-j5yw.onrender.com'; // Replace with your actual Backend URL
+  const API_BASE_URL = 'https://flowboard-j5yw.onrender.com';
 
   useEffect(() => {
     fetch(`${API_BASE_URL}/api/notes/`)
-      .then(res => res.json())
-      .then(data => setNotes(data))
-      .catch(err => console.error("Connection Error:", err));
+      .then(res => {
+        if (!res.ok) throw new Error("HTTP error " + res.status);
+        return res.json();
+      })
+      .then(data => {
+        console.log("Notes received:", data);
+        setNotes(data); // Directly set data because it is a clean array []
+      })
+      .catch(err => console.error("Fetch error:", err));
   }, []);
 
   const handleDelete = (id) => {
     fetch(`${API_BASE_URL}/api/notes/${id}/delete/`, { method: 'DELETE' })
       .then(res => {
-        if (res.ok) setNotes(notes.filter(note => note.id !== id));
-      });
+        if (res.ok) setNotes(prev => prev.filter(note => note.id !== id));
+      })
+      .catch(err => console.error("Delete error:", err));
   }
 
   return (
@@ -27,8 +33,9 @@ function Foreground() {
           <Card key={item.id} data={item} onDelete={() => handleDelete(item.id)} />
         ))
       ) : (
-        <div className="text-white opacity-50">
-          Connected to API. Add notes in Django Admin to see them here!
+        <div className="text-white opacity-50 text-xl">
+          {/* This helps you know if the app is actually running */}
+          Frontend is live. Fetching notes from {API_BASE_URL}...
         </div>
       )}
     </div>
