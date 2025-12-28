@@ -5,7 +5,7 @@ function Foreground() {
   const [notes, setNotes] = useState([]);
 
   // ✅ CHANGE THIS to your actual Render Backend URL
-  const API_BASE_URL = 'https://flowboard-backend.onrender.com';
+  const API_BASE_URL = 'https://flowboard-frontend-fg8s.onrender.com';
 
   useEffect(() => {
     // Fetching data from your LIVE Django API
