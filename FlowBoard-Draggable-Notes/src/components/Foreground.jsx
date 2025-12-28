@@ -4,31 +4,20 @@ import Card from './Card'
 function Foreground() {
   const [notes, setNotes] = useState([]);
 
-  // ✅ CHANGE THIS to your actual Render Backend URL
-  const API_BASE_URL = 'https://flowboard-frontend-fg8s.onrender.com';
+  const API_BASE_URL = 'https://flowboard-backend-d614.onrender.com'; // Replace with your actual Backend URL
 
   useEffect(() => {
-    // Fetching data from your LIVE Django API
     fetch(`${API_BASE_URL}/api/notes/`)
-      .then(res => {
-        if (!res.ok) throw new Error("Network response was not ok");
-        return res.json();
-      })
+      .then(res => res.json())
       .then(data => setNotes(data))
-      .catch(err => console.error("Error fetching notes:", err));
+      .catch(err => console.error("Connection Error:", err));
   }, []);
 
   const handleDelete = (id) => {
-    // Removing data from your LIVE Django API
-    fetch(`${API_BASE_URL}/api/notes/${id}/delete/`, { 
-      method: 'DELETE' 
-    })
+    fetch(`${API_BASE_URL}/api/notes/${id}/delete/`, { method: 'DELETE' })
       .then(res => {
-        if (res.ok) {
-          setNotes(notes.filter(note => note.id !== id));
-        }
-      })
-      .catch(err => console.error("Error deleting note:", err));
+        if (res.ok) setNotes(notes.filter(note => note.id !== id));
+      });
   }
 
   return (
@@ -38,7 +27,9 @@ function Foreground() {
           <Card key={item.id} data={item} onDelete={() => handleDelete(item.id)} />
         ))
       ) : (
-        <div className="text-white opacity-50">No notes found or loading...</div>
+        <div className="text-white opacity-50">
+          Connected to API. Add notes in Django Admin to see them here!
+        </div>
       )}
     </div>
   )
