@@ -4,7 +4,7 @@ import Card from './Card'
 function Foreground() {
   const [notes, setNotes] = useState([]);
 
-  const API_BASE_URL = 'https://flowboard-backend-d614.onrender.com'; // Replace with your actual Backend URL
+  const API_BASE_URL = 'https://flowboard-j5yw.onrender.com'; // Replace with your actual Backend URL
 
   useEffect(() => {
     fetch(`${API_BASE_URL}/api/notes/`)
